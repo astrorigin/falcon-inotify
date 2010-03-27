@@ -102,8 +102,9 @@ bool Instance::getProperty( const Falcon::String& prop, Falcon::Item& val ) cons
 {
     if ( prop == "fd" )
         val = (int) getUserData();
-
-    return defaultProperty( prop, val );
+    else
+        return defaultProperty( prop, val );
+    return true;
 }
 
 
