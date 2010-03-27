@@ -1,0 +1,7 @@
+=======================
+Falcon-Inotify Bindings
+=======================
+
+Requirements: Linux >= 2.6.27 with inotify support (doh).
+
+Author: Stanislas Marquis <stnsls@gmail.com>

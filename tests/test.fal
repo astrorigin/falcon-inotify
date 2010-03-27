@@ -1,0 +1,64 @@
+#!/bin/env falcon
+
+// This alerts of any events happening in the current directory
+
+load inotify
+
+// create one inotify instance
+instance = InotifyInstance()
+
+// create a watcher
+watch = instance.add_watch( ".", IN_ALL_EVENTS )
+
+while 1
+    // get an event
+    event = instance.get_event()
+
+    > "Event Name: ", event.name
+
+    if event.masks( IN_ACCESS )
+        > "File was accessed"
+    end
+    if event.masks( IN_ATTRIB )
+        > "Metadata changed"
+    end
+    if event.masks( IN_CLOSE_WRITE )
+        > "File opened for writing was closed"
+    end
+    if event.masks( IN_CLOSE_NOWRITE )
+        > "File not opened for writing was closed"
+    end
+    if event.masks( IN_CREATE )
+        > "File/directory created in watched directory"
+    end
+    if event.masks( IN_DELETE )
+        > "File/directory deleted from watched directory"
+    end
+    if event.masks( IN_DELETE_SELF )
+        > "Watched file/directory was itself deleted"
+    end
+    if event.masks( IN_MODIFY )
+        > "File was modified"
+    end
+    if event.masks( IN_MOVE_SELF )
+        > "Watched file/directory was itself moved"
+    end
+    if event.masks( IN_MOVED_FROM )
+        > "File moved out of watched directory"
+    end
+    if event.masks( IN_MOVED_TO )
+        > "File moved into watched directory"
+    end
+    if event.masks( IN_OPEN )
+        > "File was opened"
+    end
+
+    > "-- Press ENTER to continue or anything else + ENTER to quit"
+    if input() != ""
+        break
+    end
+end
+
+// remove a watcher
+instance.rm_watch( watch )
+
