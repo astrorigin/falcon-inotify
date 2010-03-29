@@ -21,14 +21,15 @@ find_package( Falcon
           "$ENV{FALCON_BIN_PATH}/cmake"
     REQUIRED )
 include_directories( ${Falcon_INCLUDE_DIRS} )
-link_directories( ${FALCON_LIB_PATH} )
 
 ##
 #   Find inotify.
 #   Should check information about the running kernel instead.
-#
-find_file( INOTIFY_HEADER sys/inotify.h
-    PATHS /usr/include )
+include(CheckIncludeFile)
+check_include_file("sys/inotify.h" HAVE_SYS_INOTIFY_H)
+if(NOT HAVE_SYS_INOTIFY_H)
+  message(FATAL_ERROR "This Linux installation doesn't got inotify.")
+endif()
 
 ##
 #   Subdirs
