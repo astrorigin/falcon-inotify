@@ -94,14 +94,14 @@ Instance::Instance( const Falcon::CoreClass* cls, int fd )
 
 Falcon::CoreObject* Instance::factory( const Falcon::CoreClass* cls, void* _fd, bool )
 {
-    return new Falcon::Inotify::Instance( cls, (int)_fd );
+    return new Falcon::Inotify::Instance( cls, (int64)_fd );
 }
 
 
 bool Instance::getProperty( const Falcon::String& prop, Falcon::Item& val ) const
 {
     if ( prop == "fd" )
-        val = (int) getUserData();
+        val = (int64) getUserData();
     else
         return defaultProperty( prop, val );
     return true;
@@ -116,7 +116,7 @@ bool Instance::setProperty( const Falcon::String&, const Falcon::Item& )
 
 Falcon::CoreObject* Watcher::factory( const Falcon::CoreClass* cls, void* _fd, bool )
 {
-    return new Falcon::Inotify::Watcher( cls, (int)_fd );
+    return new Falcon::Inotify::Watcher( cls, (int64)_fd );
 }
 
 
@@ -251,7 +251,7 @@ FALCON_FUNC Instance::init( Falcon::VMachine* vm )
 FALCON_FUNC Instance::add_watch( Falcon::VMachine* vm )
 {
     Falcon::CoreObject* self = vm->self().asObject();
-    int fd = (int) self->getUserData();
+    int64 fd = (int64) self->getUserData();
 
     Item* i_pathname = vm->param( 0 );
     Item* i_mask = vm->param( 1 );
@@ -311,7 +311,7 @@ FALCON_FUNC Instance::add_watch( Falcon::VMachine* vm )
 FALCON_FUNC Instance::rm_watch( Falcon::VMachine* vm )
 {
     Falcon::CoreObject* self = vm->self().asObject();
-    int fd = (int) self->getUserData();
+    int64 fd = (int64) self->getUserData();
 
     Item* i_wd = vm->param( 0 );
 
@@ -322,7 +322,7 @@ FALCON_FUNC Instance::rm_watch( Falcon::VMachine* vm )
             Falcon::ErrorParam( Falcon::e_inv_params, __LINE__ )
             .extra( "InotifyWatcher" ) );
 
-    uint32_t wd = (uint32_t) i_wd->asObject()->getUserData();
+    uint64_t wd = (uint64_t) i_wd->asObject()->getUserData();
 
     int res = inotify_rm_watch( fd, wd );
 
@@ -353,7 +353,7 @@ FALCON_FUNC Instance::rm_watch( Falcon::VMachine* vm )
 FALCON_FUNC Instance::get_event( Falcon::VMachine* vm )
 {
     Falcon::CoreObject* self = vm->self().asObject();
-    int fd = (int) self->getUserData();
+    int64 fd = (int64) self->getUserData();
 
     struct inotify_event* event = (struct inotify_event*) memAlloc(
         sizeof( struct inotify_event ) + FILENAME_MAX );
