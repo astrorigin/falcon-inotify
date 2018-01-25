@@ -1,7 +1,7 @@
 ##
 #   Falcon inotify project
 #
-project( inotify )
+project( falcon_inotify )
 
 cmake_minimum_required( VERSION 2.8 )
 
@@ -35,3 +35,5 @@ endif()
 #   Subdirs
 #
 add_subdirectory( src )
+
+# vi: set fenc=utf-8 ff=unix et sw=2 ts=2 sts=2 :
