@@ -1,3 +1,7 @@
 .directory
 *.fam
+*~
+*.bak
+*.orig
+*.swp
 
